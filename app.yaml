@@ -1,4 +1,4 @@
 runtime: python37
-service: reference-integration
+service: ref-integration
 includes:
   - env_variables.yaml
