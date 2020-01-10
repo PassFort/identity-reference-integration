@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, send_file, request, jsonify
 
+from app.api import RunCheckResponse, RunCheckRequest, validate_models
 from app.http_signature import HTTPSignatureAuth
 from app.startup import integration_key_store
 
@@ -30,6 +31,7 @@ def get_config():
 
 @app.route('/checks', methods=['POST'])
 @auth.login_required
+@validate_models(RunCheckRequest, RunCheckResponse)
 def run_check():
     # TODO: Implement check runner
-    return jsonify(request.json)
+    return RunCheckResponse()
