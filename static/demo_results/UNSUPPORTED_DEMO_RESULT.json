@@ -1,0 +1,8 @@
+{
+  "errors": [{
+    "type": "UNSUPPORTED_DEMO_RESULT",
+    "message": "Demo result is not supported."
+  }],
+  "warnings": [],
+  "provider_data": "Demo result. Did not make request to provider."
+}

@@ -1,4 +1,7 @@
+import logging
 import sys
+import warnings
+
 import pytest
 
 from requests_http_signature import HTTPSignatureAuth
@@ -15,6 +18,7 @@ def session():
     from main import app
 
     app.testing = True
+    app.logger.setLevel(logging.INFO)
 
     with Session() as session:
         session.mount('http://app', FlaskAdapter(app))

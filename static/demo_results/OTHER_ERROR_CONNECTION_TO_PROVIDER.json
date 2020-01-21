@@ -1,0 +1,8 @@
+{
+  "errors": [{
+    "type": "PROVIDER_CONNECTION",
+    "message": "Pigeon died en-route"
+  }],
+  "warnings": [],
+  "provider_data": "Demo result. Did not make request to provider."
+}

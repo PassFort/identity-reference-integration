@@ -1,0 +1,64 @@
+{
+  "check_output": {
+    "entity_type": "INDIVIDUAL",
+    "electronic_id_check": {
+      "matches": [
+        {
+          "count": 1,
+          "database_name": "CAIS Active Lenders (credit source #1)",
+          "database_type": "CREDIT",
+          "matched_fields": [
+            "FORENAME",
+            "SURNAME",
+            "DOB"
+          ]
+        },
+        {
+          "count": 0,
+          "database_name": "CAIS Settled Accounts (all credit sources)",
+          "database_type": "CREDIT",
+          "matched_fields": []
+        },
+        {
+          "count": 0,
+          "database_name": "Active or Settled CCJs",
+          "database_type": "CREDIT",
+          "matched_fields": []
+        },
+        {
+          "count": 0,
+          "database_name": "CAPS Lenders",
+          "database_type": "CREDIT",
+          "matched_fields": []
+        },
+        {
+          "count": 0,
+          "database_name": "Telephone Directory",
+          "database_type": "CIVIL",
+          "matched_fields": []
+        },
+        {
+          "count": 0,
+          "database_name": "Citizen Card Database",
+          "database_type": "CIVIL",
+          "matched_fields": []
+        },
+        {
+          "count": 0,
+          "database_name": "Electoral Roll",
+          "database_type": "CIVIL",
+          "matched_fields": []
+        },
+        {
+          "count": 0,
+          "database_name": "Mortality List",
+          "database_type": "MORTALITY",
+          "matched_fields": []
+        }
+      ]
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "provider_data": "Demo result. Did not make request to provider."
+}

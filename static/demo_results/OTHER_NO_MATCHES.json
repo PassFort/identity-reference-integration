@@ -1,0 +1,11 @@
+{
+  "check_output": {
+    "entity_type": "INDIVIDUAL",
+    "electronic_id_check": {
+      "matches": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "provider_data": "Demo result. Did not make request to provider."
+}

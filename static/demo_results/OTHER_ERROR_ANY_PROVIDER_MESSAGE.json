@@ -1,0 +1,8 @@
+{
+  "errors": [{
+    "type": "PROVIDER_MESSAGE",
+    "message": "Computer says no! - Experian"
+  }],
+  "warnings": [],
+  "provider_data": "Demo result. Did not make request to provider."
+}

@@ -8,6 +8,9 @@
     "supports_reselling": true,
     "maximum_cost": 200
   },
+  "supported_countries": [
+    "GBR", "USA", "CAN", "NLD"
+  ],
   "credentials": {
     "fields": [
       {
