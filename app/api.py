@@ -194,7 +194,7 @@ class Address(StructuredAddress):
 
 
 class DatedAddress(Model):
-    address: Optional[Address] = ModelType(Address, required=True)
+    address: Address = ModelType(Address, required=True)
     start_date = ApproxDateType(default=None)
     end_date = ApproxDateType(default=None)
 
