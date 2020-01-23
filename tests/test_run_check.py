@@ -189,3 +189,45 @@ def test_run_check_invalid_credentials(session, auth):
     }]
 
 
+def test_run_check_matched_address(session, auth):
+    current_address = {
+        'type': 'STRUCTURED',
+        'country': 'GBR',
+    }
+
+    r = session.post('http://app/checks', json={
+        'id': str(uuid4()),
+        'check_input': {
+            'entity_type': 'INDIVIDUAL',
+            'personal_details': {
+                'name': {
+                    'given_names': ['Henry'],
+                    'family_name': 'Gnarglefoot'
+                },
+                'dob': '1990-01-01'
+            },
+            'address_history': [
+                {
+                    'address': current_address
+                }
+            ]
+        },
+        'commercial_relationship': 'DIRECT',
+        'provider_config': {
+            'require_dob': False,
+            'mortality_check': True,
+            'requires_address_on_all_matches': False,
+            'run_original_address': False,
+        },
+        'demo_result': 'ONE_NAME_ADDRESS_MATCH'
+    }, auth=auth())
+    assert r.status_code == 200
+    assert r.headers['content-type'] == 'application/json'
+
+    res = r.json()
+
+    assert res['errors'] == []
+    assert res['check_output']['address_history'] == [{
+        'address': current_address
+    }]
+

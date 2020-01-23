@@ -88,7 +88,7 @@ def _run_demo_check(check_input: CheckInput, demo_result: str) -> RunCheckRespon
 
         if check_output is not None and check_output.address_history is not None and current_address is not None:
             demo_response.check_output.address_history = [
-                DatedAddress(address=current_address)
+                DatedAddress({'address': current_address})
             ]
 
         return demo_response

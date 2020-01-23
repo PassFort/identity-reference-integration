@@ -1,6 +1,7 @@
 {
   "check_output": {
     "entity_type": "INDIVIDUAL",
+    "address_history": [],
     "electronic_id_check": {
       "matches": [
         {

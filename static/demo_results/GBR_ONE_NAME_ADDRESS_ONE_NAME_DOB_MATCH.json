@@ -16,13 +16,19 @@
         },
         {
           "count": 1,
-          "database_name": "CAIS Settled Accounts (credit source #1)",
+          "database_name": "CAIS Active Lenders (credit source #2)",
           "database_type": "CREDIT",
           "matched_fields": [
             "FORENAME",
             "SURNAME",
-            "ADDRESS"
+            "DOB"
           ]
+        },
+        {
+          "count": 0,
+          "database_name": "CAIS Settled Accounts (all credit sources)",
+          "database_type": "CREDIT",
+          "matched_fields": []
         },
         {
           "count": 0,
