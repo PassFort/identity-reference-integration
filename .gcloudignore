@@ -17,3 +17,9 @@
 __pycache__/
 # Ignored by the build system
 /setup.cfg
+
+# Tests
+tests
+pytest.ini
+requirements-dev.txt
+.pytest_cache/
