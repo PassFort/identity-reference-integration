@@ -3,6 +3,7 @@ from functools import wraps
 from typing import Iterable, TypeVar, Optional, Type, List
 
 from schematics import Model
+from schematics.common import NOT_NONE
 from schematics.types import UUIDType, StringType, ModelType, ListType, DateType, BaseType, DictType, IntType, \
     BooleanType
 from schematics.exceptions import DataError
@@ -139,7 +140,7 @@ class Error(Model):
         })
 
     class Options:
-        serialize_when_none = False
+        export_level = NOT_NONE
 
 
 class Warn(Model):
@@ -147,7 +148,7 @@ class Warn(Model):
     message = StringType(required=True)
 
     class Options:
-        serialize_when_none = False
+        export_level = NOT_NONE
 
 
 class FullName(Model):
@@ -156,7 +157,7 @@ class FullName(Model):
     family_name = StringType(min_length=1, default=None)
 
     class Options:
-        serialize_when_none = False
+        export_level = NOT_NONE
 
 
 class PersonalDetails(Model):
@@ -167,7 +168,7 @@ class PersonalDetails(Model):
     gender = GenderType(default=None)
 
     class Options:
-        serialize_when_none = False
+        export_level = NOT_NONE
 
 
 class StructuredAddress(Model):
@@ -184,7 +185,7 @@ class StructuredAddress(Model):
     address_lines = ListType(StringType(), default=None)
 
     class Options:
-        serialize_when_none = False
+        export_level = NOT_NONE
 
 
 class Address(StructuredAddress):
@@ -199,7 +200,7 @@ class DatedAddress(Model):
     end_date = ApproxDateType(default=None)
 
     class Options:
-        serialize_when_none = False
+        export_level = NOT_NONE
 
 
 class EkycExtraField(Model):
@@ -217,14 +218,14 @@ class EkycMatch(Model):
     count = IntType(required=True, min_value=0)
 
     class Options:
-        serialize_when_none = False
+        export_level = NOT_NONE
 
 
 class ContactDetails(Model):
     phone_number = StringType(default=None)
 
     class Options:
-        serialize_when_none = False
+        export_level = NOT_NONE
 
 
 class ElectronicIdCheck(Model):
@@ -232,7 +233,7 @@ class ElectronicIdCheck(Model):
     provider_reference_number = StringType(default=None)
 
     class Options:
-        serialize_when_none = False
+        export_level = NOT_NONE
 
 
 class IndividualData(Model):
@@ -243,7 +244,7 @@ class IndividualData(Model):
     electronic_id_check: Optional[ElectronicIdCheck] = ModelType(ElectronicIdCheck, default=None)
 
     class Options:
-        serialize_when_none = False
+        export_level = NOT_NONE
 
     def get_current_address(self) -> Optional[Address]:
         if self.address_history:
@@ -270,7 +271,7 @@ class RunCheckRequest(Model):
     provider_credentials: Optional[ProviderCredentials] = ModelType(ProviderCredentials, default=None)
 
     class Options:
-        serialize_when_none = False
+        export_level = NOT_NONE
 
 
 class RunCheckResponse(Model):
