@@ -93,6 +93,7 @@ class HTTPSignatureAuth(HTTPAuth):
 
             # Require supplied date to be close to the current time
             if abs(authentication_time - supplied_date) > 30:
+                logging.warning('Date on request too far away from current time.')
                 return False
 
         expected_signature = base64.b64decode(sig_dict['signature'])
@@ -105,4 +106,7 @@ class HTTPSignatureAuth(HTTPAuth):
 
         computed_signature = hmac.new(key, bytes_to_sign, digestmod=hashlib.sha256).digest()
 
-        return hmac.compare_digest(expected_signature, computed_signature)
+        signature_valid = hmac.compare_digest(expected_signature, computed_signature)
+        if not signature_valid:
+            logging.warning(f'Signature on request does not match expected signature.')
+        return signature_valid

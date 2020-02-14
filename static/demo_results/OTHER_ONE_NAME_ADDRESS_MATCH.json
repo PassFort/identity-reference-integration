@@ -1,0 +1,35 @@
+{
+  "check_output": {
+    "entity_type": "INDIVIDUAL",
+    "address_history": [],
+    "electronic_id_check": {
+      "matches": [
+        {
+          "count": 0,
+          "database_name": "Telephone Directory",
+          "database_type": "CIVIL",
+          "matched_fields": []
+        },
+        {
+          "count": 1,
+          "database_name": "Electoral Roll",
+          "database_type": "CIVIL",
+          "matched_fields": [
+            "FORENAME",
+            "SURNAME",
+            "ADDRESS"
+          ]
+        },
+        {
+          "count": 0,
+          "database_name": "Mortality List",
+          "database_type": "MORTALITY",
+          "matched_fields": []
+        }
+      ]
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "provider_data": "Demo result. Did not make request to provider."
+}

@@ -3,6 +3,7 @@
 import base64
 import os
 import sys
+import logging
 
 
 def _env(name):
@@ -17,3 +18,5 @@ _integration_secret_key = _env('INTEGRATION_SECRET_KEY')
 integration_key_store = {
     (_integration_secret_key[:8], 'hmac-sha256'): base64.b64decode(_integration_secret_key)
 }
+
+logging.basicConfig(level=os.environ.get('LOGLEVEL', 'INFO'))
