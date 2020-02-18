@@ -56,13 +56,13 @@ def resolve_key(key_id, algorithm):
 
 @app.route('/')
 def index():
-    return send_file('../static/metadata.json')
+    return send_file('../static/metadata.json', cache_timeout=-1)
 
 
 @app.route('/config')
 @auth.login_required
 def get_config():
-    return send_file('../static/config.json')
+    return send_file('../static/config.json', cache_timeout=-1)
 
 
 def _sanitize_filename(value: str, program=re.compile('^[a-zA-Z_]+$')):
