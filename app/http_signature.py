@@ -3,6 +3,7 @@ import hashlib
 import hmac
 import logging
 import time
+import calendar
 
 from flask import request
 from flask_httpauth import HTTPAuth
@@ -89,7 +90,10 @@ class HTTPSignatureAuth(HTTPAuth):
                 return False
 
         if 'date' in headers:
-            supplied_date = time.mktime(parsedate(request.headers['date']))
+            # The struct_time returned by parsedate will be converted to epoch
+            # time using the system TZ, so we use calendar.timegm() to ensure
+            # it's consistently UTC
+            supplied_date = calendar.timegm(parsedate(request.headers['date']))
 
             # Require supplied date to be close to the current time
             if abs(authentication_time - supplied_date) > 30:
