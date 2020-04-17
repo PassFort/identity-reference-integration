@@ -50,8 +50,8 @@ def post_request_logging(response):
 
 
 @auth.resolve_key
-def resolve_key(key_id, algorithm):
-    return integration_key_store.get((key_id, algorithm))
+def resolve_key(key_id):
+    return integration_key_store.get(key_id)
 
 
 @app.route('/')
