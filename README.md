@@ -1,7 +1,7 @@
 # Identity Verification (eKYC) Reference Integration
 
 This project provides an example of a service implementing a [PassFort Integration](https://passfort.github.io/integration-docs/)
-supporting electronic identitfy verification.
+supporting electronic identity verification.
 
 Only demo checks are supported, no provider specific logic is implemented.
 
