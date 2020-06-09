@@ -8,7 +8,7 @@ from typing import Optional, List, Tuple
 from flask import Flask, send_file, request, abort, Response
 
 from app.api import RunCheckResponse, RunCheckRequest, validate_models, Error, DatedAddress, ErrorType, Field, Address, \
-    DemoResultType
+    DemoResultType, CommercialRelationshipType, Charge
 from app.http_signature import HTTPSignatureAuth
 from app.startup import integration_key_store
 
@@ -71,7 +71,11 @@ def _sanitize_filename(value: str, program=re.compile('^[a-zA-Z_]+$')):
     return value
 
 
-def _run_demo_check(check_input: CheckInput, demo_result: str) -> RunCheckResponse:
+def _run_demo_check(
+    check_input: CheckInput,
+    demo_result: str,
+    commercial_relationship: CommercialRelationshipType
+) -> RunCheckResponse:
     current_address = check_input.current_address
 
     def _try_load_demo_result(name: str):
@@ -80,7 +84,8 @@ def _run_demo_check(check_input: CheckInput, demo_result: str) -> RunCheckRespon
         try:
             # Load file relative to current script
             with open(os.path.join(os.path.dirname(__file__), filename), 'r') as file:
-                demo_response = RunCheckResponse().import_data(json.load(file), apply_defaults=True)
+                demo_response: RunCheckResponse = RunCheckResponse().import_data(
+                    json.load(file), apply_defaults=True)
         except FileNotFoundError:
             return None
 
@@ -91,10 +96,22 @@ def _run_demo_check(check_input: CheckInput, demo_result: str) -> RunCheckRespon
                 DatedAddress({'address': current_address})
             ]
 
+        if commercial_relationship == CommercialRelationshipType.PASSFORT:
+            demo_response.charges = [
+                Charge({
+                    'amount': 100,
+                    'reference': 'DUMMY REFERENCE'
+                }),
+                Charge({
+                    'amount': 50,
+                    'sku': 'NORMAL'
+                })
+            ]
+
         return demo_response
 
     # Default to no matches if we could return any result
-    if demo_result == DemoResultType.ANY:
+    if demo_result in {DemoResultType.ANY, DemoResultType.ANY_CHARGE}:
         demo_result = DemoResultType.NO_MATCHES
 
     return _try_load_demo_result(f'{current_address.country}_{demo_result}') or \
@@ -150,7 +167,7 @@ def run_check(req: RunCheckRequest) -> RunCheckResponse:
         return RunCheckResponse.error([Error.unsupported_country()])
 
     if req.demo_result is not None:
-        return _run_demo_check(check_input, req.demo_result)
+        return _run_demo_check(check_input, req.demo_result, req.commercial_relationship)
 
     return RunCheckResponse.error([Error({
         'type': ErrorType.PROVIDER_MESSAGE,

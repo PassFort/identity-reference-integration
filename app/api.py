@@ -14,7 +14,8 @@ from flask import abort, request, Response, jsonify
 # Inheriting this class will make an enum exhaustive
 class EnumMeta(TypeMeta):
     def __new__(mcs, name, bases, attrs):
-        attrs['choices'] = [v for k, v in attrs.items() if not k.startswith('_') and k.isupper()]
+        attrs['choices'] = [v for k, v in attrs.items(
+        ) if not k.startswith('_') and k.isupper()]
         return TypeMeta.__new__(mcs, name, bases, attrs)
 
 
@@ -25,6 +26,7 @@ class ApproxDateType(DateType):
 # Intentionally non-exhaustive
 class DemoResultType(StringType):
     ANY = 'ANY'
+    ANY_CHARGE = 'ANY_CHARGE'
 
     # Errors
     ERROR_INVALID_CREDENTIALS = 'ERROR_INVALID_CREDENTIALS'
@@ -191,7 +193,8 @@ class StructuredAddress(Model):
 class Address(StructuredAddress):
     type = AddressType(required=True, default=AddressType.STRUCTURED)
     original_freeform_address = StringType(default=None)
-    original_structured_address: Optional[StructuredAddress] = ModelType(StructuredAddress, default=None)
+    original_structured_address: Optional[StructuredAddress] = ModelType(
+        StructuredAddress, default=None)
 
 
 class DatedAddress(Model):
@@ -214,7 +217,8 @@ class EkycMatch(Model):
     matched_fields = ListType(EkycMatchField, required=True)
     date_first_seen = DateType(default=None)
     date_of_last_activity = DateType(default=None)
-    extra: Optional[EkycExtraField] = ListType(ModelType(EkycExtraField), default=None)
+    extra: Optional[EkycExtraField] = ListType(
+        ModelType(EkycExtraField), default=None)
     count = IntType(required=True, min_value=0)
 
     class Options:
@@ -238,10 +242,14 @@ class ElectronicIdCheck(Model):
 
 class IndividualData(Model):
     entity_type = EntityType(required=True, default=EntityType.INDIVIDUAL)
-    personal_details: Optional[PersonalDetails] = ModelType(PersonalDetails, default=None)
-    address_history: Optional[List[DatedAddress]] = ListType(ModelType(DatedAddress), default=None)
-    contact_details: Optional[ContactDetails] = ModelType(ContactDetails, default=None)
-    electronic_id_check: Optional[ElectronicIdCheck] = ModelType(ElectronicIdCheck, default=None)
+    personal_details: Optional[PersonalDetails] = ModelType(
+        PersonalDetails, default=None)
+    address_history: Optional[List[DatedAddress]] = ListType(
+        ModelType(DatedAddress), default=None)
+    contact_details: Optional[ContactDetails] = ModelType(
+        ContactDetails, default=None)
+    electronic_id_check: Optional[ElectronicIdCheck] = ModelType(
+        ElectronicIdCheck, default=None)
 
     class Options:
         export_level = NOT_NONE
@@ -262,23 +270,35 @@ class IndividualData(Model):
         return self.personal_details and self.personal_details.name and self.personal_details.name.family_name
 
 
+class Charge(Model):
+    amount = IntType(required=True)
+    reference = StringType(default=None)
+    sku = StringType(default=None)
+
+    class Options:
+        export_level = NOT_NONE
+
+
 class RunCheckRequest(Model):
     id = UUIDType(required=True)
     demo_result = DemoResultType(default=None)
     commercial_relationship = CommercialRelationshipType(required=True)
     check_input: IndividualData = ModelType(IndividualData, required=True)
     provider_config: ProviderConfig = ModelType(ProviderConfig, required=True)
-    provider_credentials: Optional[ProviderCredentials] = ModelType(ProviderCredentials, default=None)
+    provider_credentials: Optional[ProviderCredentials] = ModelType(
+        ProviderCredentials, default=None)
 
     class Options:
         export_level = NOT_NONE
 
 
 class RunCheckResponse(Model):
-    check_output: Optional[IndividualData] = ModelType(IndividualData, default=None)
+    check_output: Optional[IndividualData] = ModelType(
+        IndividualData, default=None)
     errors: List[Error] = ListType(ModelType(Error), default=[])
     warnings: List[Warn] = ListType(ModelType(Warn), default=[])
     provider_data = BaseType(default=None)
+    charges = ListType(ModelType(Charge), default=[])
 
     @staticmethod
     def error(errors: List[Error]) -> 'RunCheckResponse':
@@ -295,7 +315,8 @@ def _first(x: Iterable[T]) -> Optional[T]:
 
 
 def _get_input_annotation(signature: inspect.Signature) -> Optional[Type[Model]]:
-    first_param: Optional[inspect.Parameter] = _first(signature.parameters.values())
+    first_param: Optional[inspect.Parameter] = _first(
+        signature.parameters.values())
     if first_param is None:
         return None
 
@@ -318,7 +339,8 @@ def validate_models(fn):
 
     signature = inspect.signature(fn)
 
-    assert issubclass(signature.return_annotation, Model), 'Must have a return type annotation'
+    assert issubclass(signature.return_annotation,
+                      Model), 'Must have a return type annotation'
     output_model = signature.return_annotation
     input_model = _get_input_annotation(signature)
 
