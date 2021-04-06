@@ -8,9 +8,7 @@
     "supports_reselling": true,
     "maximum_cost": 200
   },
-  "supported_countries": [
-    "GBR", "USA", "CAN", "NLD"
-  ],
+  "supported_countries": ["GBR", "USA", "CAN", "NLD"],
   "credentials": {
     "fields": [
       {
@@ -71,21 +69,24 @@
         "default": false
       },
       {
-        "type": "MultiSelect",
+        "type": "set",
+        "items": {
+          "type": "string",
+          "options": [
+            "CAIS Active Lenders",
+            "CAIS Settled Accounts",
+            "Active or Settled CCJs",
+            "CAPS Lenders",
+            "Social Security Database",
+            "Telephone Directory",
+            "Citizen Card Database",
+            "Electoral Roll"
+          ]
+        },
         "name": "whitelisted_databases",
         "label": "Use only selected database names for the check",
         "subtext": "This will override the default settings",
-        "options": [
-          "CAIS Active Lenders",
-          "CAIS Settled Accounts",
-          "Active or Settled CCJs",
-          "CAPS Lenders",
-          "Social Security Database",
-          "Telephone Directory",
-          "Citizen Card Database",
-          "Electoral Roll"
-        ],
-        "default": null
+        "default": []
       }
     ]
   }
