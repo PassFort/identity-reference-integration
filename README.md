@@ -20,3 +20,4 @@ the service with `python main.py`.
 This stateless service is designed to be deployed to Google App Engine, the `app.yaml`
 and `Dockerfile` reflect this. However, there is no requirement for your integration
 to use such a platform.
+
